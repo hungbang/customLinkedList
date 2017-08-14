@@ -75,7 +75,7 @@ public class ListLinked<T> implements Iterable<T> {
         return N == 0;
     }
 
-    private class Node {
+    private class Node<T> {
         private T data;
         private Node next;
 
@@ -90,7 +90,7 @@ public class ListLinked<T> implements Iterable<T> {
     }
 
     private class ListLinkedIterator implements Iterator<T> {
-        private Node current = first;
+        private Node<T> current = first;
 
         public T next() {
             if (!hasNext()) {
@@ -108,6 +108,8 @@ public class ListLinked<T> implements Iterable<T> {
         public void remove() {
             throw new UnsupportedOperationException();
         }
+
+
     }
 
     @Override
@@ -121,9 +123,9 @@ public class ListLinked<T> implements Iterable<T> {
     public static void main(String[] args) {
         //add element to List
         ListLinked<Integer> list = new ListLinked<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
+        for(int i =0; i<10; i++){
+            list.add(i);
+        }
 
         list.forEach(integer -> {
             System.out.println(integer);
@@ -132,17 +134,19 @@ public class ListLinked<T> implements Iterable<T> {
         //remove 1 element
         list.remove(3);
 
-        list.forEach(integer -> {
-            System.out.println(integer);
-        });
+        //Then Remove the tail element from a linkedlist
+        list.remove((Integer)list.last.data);
 
         //remove all list
         Iterator iter = list.iterator();
+        int target = 5;
         while (iter.hasNext()){
             Integer integer = (Integer) iter.next();
-            list.remove(integer);
+            if(integer > target)
+                list.remove(integer);
         }
 
+        System.out.println("Then Remove all element in the linkedlist that is great than a target value");
         System.out.println(list.size());
     }
 }
